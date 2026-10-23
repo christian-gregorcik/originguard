@@ -111,7 +111,9 @@ cargo test
 cargo clippy --all-targets -- -D warnings
 ```
 
-Both are clean, and CI runs them on every push.
+Both are clean, and CI runs them on every push, along with a job that
+builds the crate on Rust 1.74 — the minimum the manifest declares — so the
+claim is checked rather than asserted.
 
 ## Measured
 
