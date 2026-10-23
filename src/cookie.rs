@@ -129,12 +129,12 @@ pub fn domain_allowed(list: &PublicSuffixList, request_host: &str, domain: &str)
     if host_is_ip(&domain) {
         return request_host == domain;
     }
-    if list
-        .public_suffix(&domain)
-        .is_none_or(|s| s.len() == domain.len())
-    {
-        // The domain is itself a public suffix, or has none.
-        return false;
+    // The domain is itself a public suffix, or has none. (`is_none_or` says
+    // this more directly but is only stable since 1.82, above this crate's
+    // minimum.)
+    match list.public_suffix(&domain) {
+        Some(suffix) if suffix.len() != domain.len() => {}
+        _ => return false,
     }
     if request_host == domain {
         return true;
