@@ -37,3 +37,15 @@ jobs:
 
       - name: Throughput
         run: cargo run --release --example throughput
+
+  minimum-version:
+    name: Builds on the stated minimum Rust
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install 1.74
+        run: |
+          rustup toolchain install 1.74 --profile minimal
+          rustup default 1.74
+          rustc --version
+      - run: cargo build --all-targets
